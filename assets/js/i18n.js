@@ -27,7 +27,7 @@
       // Search
       'search.placeholder': 'Search JAV codes, models, titles...',
       'hero.title': 'Search Adult Video and Pictures',
-      'hero.subtitle': '',
+      'hero.subtitle': 'Adult Video and Picture',
       'hero.searchPlaceholder': 'Use "+" to combine multiple...',
       
       // Footer
@@ -114,7 +114,7 @@
       'btn.signin': 'Masuk',
       'search.placeholder': 'Cari kode JAV, model, judul...',
       'hero.title': 'Search Adult Video and Pictures',
-      'hero.subtitle': '',
+      'hero.subtitle': 'Video dan Gambar Dewasa',
       'footer.contact': 'Hubungi Kami',
       'footer.upload': 'Kirim Konten',
       'footer.copyright': '© 2025 xPandorax.com | Semua Hak Dilindungi'
