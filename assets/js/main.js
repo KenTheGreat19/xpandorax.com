@@ -6,7 +6,11 @@
   function qsa(s,ctx=document){return Array.from((ctx||document).querySelectorAll(s))}
 
   document.addEventListener('DOMContentLoaded', ()=>{
-    enforceAgeGate();
+    // Redirect to age gate if not verified
+    if(!localStorage.getItem('ageVerified') || localStorage.getItem('ageVerified') !== 'true'){
+      window.location.replace('index.html');
+      return;
+    }
     setupThemeToggle();
     setupLanguageModal();
     loadContent();
@@ -14,8 +18,6 @@
     setupMobileMenu();
     setupFooterPanels();
     qsa('.load-more').forEach(b=>b.addEventListener('click', onLoadMore));
-    qs('#exitSite').addEventListener('click', ()=>location.href='https://www.who.int/');
-    qs('#enterSite').addEventListener('click', ()=>{ localStorage.setItem('ageVerified','true'); hideAgeGate(); });
     window.addEventListener('storage', ()=>{ loadContent(); });
   });
 
@@ -49,32 +51,6 @@
     panels.forEach(p=>p.classList.remove('open'));
     if(!isOpen) panel.classList.add('open');
   }
-
-  function enforceAgeGate(){
-    // Skip age gate on admin pages
-    const isAdminPage = location.pathname.includes('admin');
-    if(isAdminPage) return;
-    
-    // Auto-verify on localhost for development
-    const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    if(isLocalhost && !localStorage.getItem('ageVerified')) {
-      localStorage.setItem('ageVerified', 'true');
-    }
-    
-    const age = localStorage.getItem('ageVerified');
-    const overlay = qs('#ageGateOverlay');
-    if(!overlay) return;
-    if(age==='true'){ 
-      overlay.style.display='none'; 
-      overlay.setAttribute('aria-hidden','true');
-      return; 
-    }
-    // Show age gate overlay (no blur applied)
-    overlay.style.display='flex'; 
-    overlay.setAttribute('aria-hidden','false');
-  }
-
-  function hideAgeGate(){ const overlay=qs('#ageGateOverlay'); if(!overlay) return; overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); }
 
   function setupThemeToggle(){
     const btn = qs('#themeToggle'); 
