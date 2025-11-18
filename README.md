@@ -37,8 +37,8 @@ npx http-server -p 8000
 ## Test Checklist
 - Age gate
   - Clear Local Storage `ageVerified` and open the site at a non-localhost address (e.g., http://<machine-ip>:8000) to see the age gate overlay.
-  - Confirm background blur does not affect the age gate modal itself.
-  - Click "I am 18+ (ENTER)" and confirm the overlay hides and the `body.age-gate-active` class is removed.
+  - Confirm the age gate modal is visible and **no blur** is applied to the entire page.
+  - Click "I am 18+ (ENTER)" and confirm the overlay hides.
 
 - Interaction
   - Hamburger (mobile) menu opens and closes, Esc and outside click close it.

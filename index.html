@@ -34,10 +34,10 @@
     [data-theme=light]{--bg:#ffffff;--text:#0e0e18;--card:#f9f9fb;--border:#e5e7eb}
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;margin:0}
-    .primary-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);height:68px;display:flex;align-items:center;padding:0 2rem}
+    .primary-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.9);height:68px;display:flex;align-items:center;padding:0 2rem}
     .secondary-nav{position:fixed;top:68px;left:0;right:0;height:48px;z-index:999;background:rgba(17,17,32,0.8)}
     .age-gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:2000}
-    body.age-gate-active > *:not(#ageGateOverlay){filter:blur(12px);pointer-events:none}
+    /* Age gate overlay no longer uses blur — background is not blurred */
   </style>
   
   <!-- Load full CSS -->

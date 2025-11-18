@@ -67,16 +67,14 @@
     if(age==='true'){ 
       overlay.style.display='none'; 
       overlay.setAttribute('aria-hidden','true');
-      document.body.classList.remove('age-gate-active');
       return; 
     }
-    // Show age gate and block interactions
+    // Show age gate overlay (no blur applied)
     overlay.style.display='flex'; 
     overlay.setAttribute('aria-hidden','false');
-    document.body.classList.add('age-gate-active');
   }
 
-  function hideAgeGate(){ const overlay=qs('#ageGateOverlay'); if(!overlay) return; overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); document.body.classList.remove('age-gate-active'); }
+  function hideAgeGate(){ const overlay=qs('#ageGateOverlay'); if(!overlay) return; overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); }
 
   function setupThemeToggle(){
     const btn = qs('#themeToggle'); 

@@ -134,8 +134,7 @@ body{
   left:0;
   right:0;
   height:68px;
-  background:rgba(0,0,0,0.8);
-  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,0.9);
   display:flex;
   align-items:center;
   gap:1.5rem;
@@ -262,8 +261,7 @@ body{
   left:0;
   right:0;
   height:48px;
-  background:rgba(17,17,32,0.8);
-  backdrop-filter:blur(10px);
+  background:rgba(17,17,32,0.95);
   border-bottom:1px solid rgba(255,255,255,0.05);
   display:flex;
   align-items:center;
@@ -330,7 +328,7 @@ main{padding:140px 2rem 4rem}
 .footer-copyright{margin-top:1rem;text-align:center;color:#9aa}
 
 /* Language Modal */
-.language-modal{position:fixed;top:0;right:0;width:280px;height:100vh;background:rgba(20,25,35,0.98);backdrop-filter:blur(10px);transform:translateX(100%);transition:transform 0.3s ease;z-index:1500;overflow-y:auto;box-shadow:-4px 0 12px rgba(0,0,0,0.3)}
+.language-modal{position:fixed;top:0;right:0;width:280px;height:100vh;background:rgba(20,25,35,0.98);transform:translateX(100%);transition:transform 0.3s ease;z-index:1500;overflow-y:auto;box-shadow:-4px 0 12px rgba(0,0,0,0.3)}
 .language-modal.active{transform:translateX(0)}
 .language-menu{padding:1.5rem 0.5rem;display:flex;flex-direction:column;gap:0.5rem}
 .lang-option{display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:transparent;border:none;color:#fff;font-size:16px;cursor:pointer;border-radius:8px;transition:background 0.2s;width:100%;text-align:left}
@@ -342,21 +340,8 @@ main{padding:140px 2rem 4rem}
 .language-toggle{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s}
 .language-toggle:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3)}
 
-/* Age gate styling - proper blur implementation */
-body.age-gate-active::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  filter: blur(12px);
-  z-index: 1999;
-  pointer-events: none;
-}
-
-body.age-gate-active > *:not(#ageGateOverlay) {
-  filter: blur(12px);
-  pointer-events: none;
-}
+/* Age gate overlay (no blur applied) */
+/* Age gate overlay is visible without blurring the background */
 
 .age-gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:2000}
 .age-card{max-width:560px;width:90%;background:#fff;color:#000;padding:2rem;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.6);text-align:center;position:relative;z-index:2001}
@@ -371,7 +356,7 @@ body.age-gate-active > *:not(#ageGateOverlay) {
 .btn.enter{background:#007bff;color:#fff}
 .btn.enter:hover{background:#0056b3;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,123,255,0.4)}
 .btn.exit:active,.btn.enter:active{transform:translateY(0)}
-.theme-toggle{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;backdrop-filter:blur(12px);z-index:1500}
+.theme-toggle{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;z-index:1500}
 .autocomplete{position:absolute;background:var(--card);max-height:320px;overflow:auto;border:1px solid var(--border);width:60%;margin-top:6px}
 /* Responsive */
 @media (max-width:767px){
@@ -658,7 +643,7 @@ a:focus, button:focus, .thumb:focus{outline:3px solid rgba(233,30,99,0.24);outli
   cursor:pointer;
   z-index:999;
   transition:all 0.3s ease;
-  backdrop-filter:blur(10px);
+  /* removed blur */
 }
 
 .theme-toggle:hover{

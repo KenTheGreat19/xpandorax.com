@@ -164,7 +164,7 @@
     bottom: 30%;
     background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
     transform: skewX(-10deg);
-    filter: blur(10px);
+    /* blurred shine removed for performance and to avoid blur */
     opacity: 0.9;
     border-radius: 6px;
 }
