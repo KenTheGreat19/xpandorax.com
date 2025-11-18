@@ -66,19 +66,17 @@
     if(!overlay) return;
     if(age==='true'){ 
       overlay.style.display='none'; 
-      document.body.style.filter='none'; 
-      document.body.style.pointerEvents='auto'; 
-      overlay.setAttribute('aria-hidden','true'); 
+      overlay.setAttribute('aria-hidden','true');
+      document.body.classList.remove('age-gate-active');
       return; 
     }
-    // Block interactions until verified
-    document.body.style.filter='blur(12px)'; 
-    document.body.style.pointerEvents='none';
+    // Show age gate and block interactions
     overlay.style.display='flex'; 
     overlay.setAttribute('aria-hidden','false');
+    document.body.classList.add('age-gate-active');
   }
 
-  function hideAgeGate(){ const overlay=qs('#ageGateOverlay'); if(!overlay) return; overlay.style.display='none'; document.body.style.filter='none'; document.body.style.pointerEvents='auto'; overlay.setAttribute('aria-hidden','true'); }
+  function hideAgeGate(){ const overlay=qs('#ageGateOverlay'); if(!overlay) return; overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); document.body.classList.remove('age-gate-active'); }
 
   function setupThemeToggle(){
     const btn = qs('#themeToggle'); 

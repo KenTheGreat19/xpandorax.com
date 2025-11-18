@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>xPandorax — Premium JAV Index | Japanese Adult Video Content</title>
   <meta name="description" content="xPandorax: Your curated index for premium Japanese Adult Video (JAV) content. Browse 1080p, 4K, HD videos from top studios. All content embedded from third-party CDN providers.">
   <meta name="keywords" content="JAV, Japanese Adult Video, JAV index, HD JAV, 4K JAV, uncensored JAV, Japanese AV">
+  <meta name="theme-color" content="#0b0b17">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -21,7 +22,7 @@
   <meta property="twitter:description" content="Curated JAV index with HD and 4K content.">
   <meta property="twitter:image" content="/text/assets/img/og-thumb.jpg">
   
-  <!-- Preconnect to external domains -->
+  <!-- Performance optimizations -->
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
   
@@ -29,16 +30,18 @@
   
   <!-- Critical CSS inline (extracted from style.css) -->
   <style>
-    :root{--bg:#0b0b17;--text:#e6e6f0;--card:#121228;--border:#232347}
+    :root{--bg:#0b0b17;--text:#e6e6f0;--card:#121228;--border:#232347;--accent:#e91e63;--accent-hover:#c2185b}
     [data-theme=light]{--bg:#ffffff;--text:#0e0e18;--card:#f9f9fb;--border:#e5e7eb}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
-    .primary-header{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--border)}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;margin:0}
+    .primary-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);height:68px;display:flex;align-items:center;padding:0 2rem}
+    .secondary-nav{position:fixed;top:68px;left:0;right:0;height:48px;z-index:999;background:rgba(17,17,32,0.8)}
+    .age-gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:2000}
+    body.age-gate-active > *:not(#ageGateOverlay){filter:blur(12px);pointer-events:none}
   </style>
   
-  <!-- Load full CSS asynchronously -->
-  <link rel="stylesheet" href="assets/css/style.css" media="print" onload="this.media='all';this.onload=null">
-  <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
+  <!-- Load full CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
   
   <script>
     // Apply theme early to avoid FOUC
