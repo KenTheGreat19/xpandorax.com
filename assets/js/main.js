@@ -154,7 +154,7 @@
     let content = JSON.parse(localStorage.getItem(STORAGE_KEYS.content) || 'null');
     if(!content){
       try{ 
-        const r = await fetch('/text/data/content.json'); 
+        const r = await fetch('/data/content.json'); 
         if(r.ok) content = await r.json(); 
       } catch(e){ content = []; }
     }
