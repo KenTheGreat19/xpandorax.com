@@ -282,42 +282,6 @@
         window.location.href = 'admin.html';
     }
 
-    // Traffic Chart
-    const ctx = document.getElementById('trafficChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-            datasets: [{
-                label: 'Visits',
-                data: [65, 59, 80, 81],
-                borderColor: '#36A2EB',
-                tension: 0.4,
-                fill: false
-            },
-            {
-                label: 'Unique Users',
-                data: [45, 49, 60, 71],
-                borderColor: '#4BC0C0',
-                tension: 0.4,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Traffic Overview'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
     </script>
 
     <!-- Floating Telegram Button -->
@@ -326,6 +290,9 @@
     <!-- Floating Theme Toggle -->
     <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌑</button>
 
+    <!-- Load Analytics and Dashboard Scripts -->
+    <script src="assets/js/analytics.js"></script>
+    <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
 </body>

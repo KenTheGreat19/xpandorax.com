@@ -159,7 +159,7 @@
   function renderThumb(it){
     const unc = it.uncensored ? '<div class="uncensored">UNC</div>' : '';
     const quality = it.quality || (it.quality4k ? '4K' : 'HD');
-    return `<article class="thumb" tabindex="0">
+    return `<article class="thumb" tabindex="0" onclick="trackContentClick('${it.code || ''}', '${it.title || ''}')">
       <img loading="lazy" src="${it.thumb || ''}" alt="${it.title || ''} thumbnail">
       <div class="duration">${it.duration || ''}</div>
       <div class="quality">${quality}</div>
@@ -215,6 +215,18 @@
       </div>`
     ).join(''); 
     ac.style.display = 'block';
+    
+    // Track search event
+    if(window.xpandoraxAnalytics) {
+      window.xpandoraxAnalytics.trackEvent('search', 'query', q);
+    }
   }
+
+  // Track content clicks
+  window.trackContentClick = function(code, title) {
+    if(window.xpandoraxAnalytics) {
+      window.xpandoraxAnalytics.trackEvent('content', 'view', code + ' - ' + title);
+    }
+  };
 
 })();
