@@ -58,8 +58,12 @@
             return;
         }
 
-        try {
-            const stats = window.xpandoraxAnalytics.getStats();
+        // Try to load remote analytics first - if available, prefer the remote aggregate
+        fetchRemoteAnalytics().then(remoteStats => {
+            try {
+                const localStats = window.xpandoraxAnalytics.getStats();
+                const stats = remoteStats || localStats;
+            setDataSourceLabel(remoteStats ? 'Remote' : 'Local');
             
             // Update top metrics with real data or zero
             const totalVisitsEl = document.getElementById('totalVisits');
@@ -71,6 +75,8 @@
             if (totalPageViewsEl) totalPageViewsEl.textContent = formatNumber(stats.totalPageViews);
             if (uniqueVisitorsEl) uniqueVisitorsEl.textContent = formatNumber(stats.uniqueVisitors);
             if (bounceRateEl) bounceRateEl.textContent = (stats.bounceRate || 0).toFixed(2) + '%';
+            const newUsersEl = document.getElementById('newUsers');
+            if (newUsersEl) newUsersEl.textContent = formatNumber(stats.newUsers);
 
             // Update trend indicators based on real data
             updateTrendIndicators(stats);
@@ -81,12 +87,67 @@
             // Update sales
             updateSalesData(stats);
 
+            // Update charts
+            createTrafficChart(stats);
+
             // Update continent stats
             updateContinentStats(stats);
-        } catch (e) {
-            console.error('Error loading analytics data:', e);
-            setDefaultZeroValues();
+            } catch (e) {
+                console.error('Error loading analytics data:', e);
+                setDefaultZeroValues();
+            }
+        }).catch(err => {
+            console.warn('Remote analytics not available:', err);
+            try {
+                const stats = window.xpandoraxAnalytics.getStats();
+                const totalVisitsEl = document.getElementById('totalVisits');
+                const totalPageViewsEl = document.getElementById('totalPageViews');
+                const uniqueVisitorsEl = document.getElementById('uniqueVisitors');
+                const bounceRateEl = document.getElementById('bounceRate');
+                
+                if (totalVisitsEl) totalVisitsEl.textContent = formatNumber(stats.totalVisits);
+                if (totalPageViewsEl) totalPageViewsEl.textContent = formatNumber(stats.totalPageViews);
+                if (uniqueVisitorsEl) uniqueVisitorsEl.textContent = formatNumber(stats.uniqueVisitors);
+                if (bounceRateEl) bounceRateEl.textContent = (stats.bounceRate || 0).toFixed(2) + '%';
+                const newUsersEl = document.getElementById('newUsers');
+                if (newUsersEl) newUsersEl.textContent = formatNumber(stats.newUsers);
+                
+                updateTrendIndicators(stats);
+                updateCircularMetrics(stats);
+                updateSalesData(stats);
+                createTrafficChart(stats);
+                updateContinentStats(stats);
+            } catch (e) {
+                console.error('Error loading analytics data fallback:', e);
+                setDefaultZeroValues();
+            }
+        });
+    }
+
+    async function fetchRemoteAnalytics() {
+        // Try multiple possible remote locations for aggregate analytics data
+        const candidates = [
+            '/data/analytics.json',
+            '/api/analytics',
+            '/data/analytics/aggregated.json'
+        ];
+
+        for (const url of candidates) {
+            try {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (res && res.ok) {
+                    const payload = await res.json();
+                    // Basic validation
+                    if (payload && typeof payload.totalVisits !== 'undefined') {
+                        console.info('Loaded remote analytics from', url);
+                        return payload;
+                    }
+                }
+            } catch (e) {
+                // ignore and try next
+            }
         }
+        return null;
     }
 
     function setDefaultZeroValues() {
@@ -218,6 +279,57 @@
             return (num / 1000).toFixed(1) + 'K';
         }
         return num.toString();
+    }
+
+    function setDataSourceLabel(source) {
+        const ds = document.getElementById('dataSource');
+        if (ds) ds.textContent = 'Data: ' + (source || 'Local');
+    }
+
+    function createTrafficChart(stats) {
+        const ctx = document.getElementById('trafficChart');
+        if (!ctx) return;
+        // Use remote stats.monthly if available, else use local monthly data
+        let monthlyData = { labels: [], visits: [], pageViews: [], uniqueVisitors: [] };
+        if (stats && stats.monthly && Array.isArray(stats.monthly.labels)) {
+            monthlyData = stats.monthly;
+        } else if (window.xpandoraxAnalytics) {
+            monthlyData = window.xpandoraxAnalytics.getMonthlyData();
+        }
+        let labels = monthlyData.labels;
+        let visits = monthlyData.visits;
+
+        if (!labels || labels.length === 0) {
+            // fallback to simple weekly dummy labels
+            labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+            const v = stats && stats.totalVisits ? Math.max(0, Math.round(stats.totalVisits / 4)) : 0;
+            visits = [v, v, v, v];
+        }
+
+        // Remove any existing canvas (Chart.js will try to reuse), and recreate to avoid duplicates
+        if (ctx.__xpchart) {
+            try { ctx.__xpchart.destroy(); } catch(e) {}
+        }
+
+        const chart = new Chart(ctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Visits',
+                    data: visits,
+                    borderColor: '#36A2EB',
+                    tension: 0.4,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { title: { display: true, text: 'Traffic Overview' } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+        ctx.__xpchart = chart;
     }
 
     function initializeCharts() {

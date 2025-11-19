@@ -1,0 +1,27 @@
+{
+  "totalVisits": 78706,
+  "totalPageViews": 129103,
+  "uniqueVisitors": 24093,
+  "bounceRate": 40.15,
+  "continents": {
+    "North America": 40000,
+    "Europe": 20000,
+    "Asia": 15000,
+    "Australia": 1000,
+    "South America": 500,
+    "Africa": 300
+  },
+  "countries": {
+    "United States": { "name": "United States", "count": 38000 },
+    "United Kingdom": { "name": "United Kingdom", "count": 5000 },
+    "Philippines": { "name": "Philippines", "count": 4000 }
+  },
+  "sales": {
+    "monthly": {
+      "November 2025": 10240
+    },
+    "total": 230000
+  },
+  "newUsers": 22123,
+  "newPurchases": 312
+}

@@ -73,6 +73,26 @@
         }
     }
 
+    // Export local analytics to a remote server endpoint if provided.
+    // To use it, set localStorage.setItem('xpandorax_analytics_endpoint', 'https://yourserver.example.com/analytics');
+    function exportToServer(endpoint) {
+        try {
+            const data = loadData();
+            if (!endpoint) {
+                endpoint = localStorage.getItem('xpandorax_analytics_endpoint');
+            }
+            if (!endpoint) return Promise.reject(new Error('No endpoint specified'));
+
+            return fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ analytics: data, source: 'xpandorax_local' })
+            });
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    }
+
     function initSession() {
         let session = sessionStorage.getItem(SESSION_KEY);
         
@@ -109,6 +129,13 @@
             });
             
             saveData(data);
+        }
+
+        // Optionally sync to server if configured
+        const endpoint = localStorage.getItem('xpandorax_analytics_endpoint');
+        if (endpoint) {
+            // Sync once at init (non-blocking)
+            exportToServer(endpoint).catch(err => console.warn('Analytics sync failed:', err));
         }
     }
 

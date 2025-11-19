@@ -19,6 +19,18 @@
     setupFooterPanels();
     qsa('.load-more').forEach(b=>b.addEventListener('click', onLoadMore));
     window.addEventListener('storage', ()=>{ loadContent(); });
+
+    // Delegated listener for content thumbnails to track content view events
+    document.addEventListener('click', function(e){
+      const thumb = e.target.closest && e.target.closest('.thumb');
+      if (thumb) {
+        const code = thumb.dataset.code || '';
+        const title = thumb.dataset.title || '';
+        if (window.xpandoraxAnalytics) {
+          window.xpandoraxAnalytics.trackEvent('content', 'view', code + ' - ' + title);
+        }
+      }
+    });
   });
 
   /* Mobile menu and footer panels */
@@ -159,7 +171,9 @@
   function renderThumb(it){
     const unc = it.uncensored ? '<div class="uncensored">UNC</div>' : '';
     const quality = it.quality || (it.quality4k ? '4K' : 'HD');
-    return `<article class="thumb" tabindex="0" onclick="trackContentClick('${it.code || ''}', '${it.title || ''}')">
+    const safeCode = (it.code || '').replace(/"/g, '&quot;');
+    const safeTitle = (it.title || '').replace(/"/g, '&quot;');
+    return `<article class="thumb" tabindex="0" data-code="${safeCode}" data-title="${safeTitle}">
       <img loading="lazy" src="${it.thumb || ''}" alt="${it.title || ''} thumbnail">
       <div class="duration">${it.duration || ''}</div>
       <div class="quality">${quality}</div>

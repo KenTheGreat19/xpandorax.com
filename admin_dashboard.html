@@ -39,6 +39,8 @@
                         <span>Visit Website</span>
                     </a>
                     <span id="currentUser">Admin</span>
+                    <span id="dataSource" style="margin-left: 12px; font-size: 12px; color: #bcd;">Data: Local</span>
+                    <button id="resetAnalyticsBtn" class="btn" title="Reset analytics data" style="margin-left:8px;">Reset Data</button>
                     <button onclick="logout()" class="btn" data-i18n="admin_logout">Logout</button>
                 </div>
             </div>
@@ -47,19 +49,19 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>Total Views</h3>
-                    <div class="value">78,706</div>
+                    <div class="value" id="totalVisits">0</div>
                 </div>
                 <div class="stat-card">
                     <h3>Unique Users</h3>
-                    <div class="value">24,093</div>
+                    <div class="value" id="uniqueVisitors">0</div>
                 </div>
                 <div class="stat-card">
                     <h3>New Users</h3>
-                    <div class="value">22,123</div>
+                    <div class="value" id="newUsers">0</div>
                 </div>
                 <div class="stat-card">
                     <h3>Bounce Rate</h3>
-                    <div class="value">40.15%</div>
+                    <div class="value" id="bounceRate">0%</div>
                 </div>
             </div>
 
@@ -295,5 +297,20 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const resetBtn = document.getElementById('resetAnalyticsBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function(){
+                    if (confirm('Clear local analytics data? This will reset statistics for this browser.')) {
+                        localStorage.removeItem('xpandorax_analytics');
+                        localStorage.removeItem('xpandorax_returning_visitor');
+                        // optionally reload to reflect reset
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
